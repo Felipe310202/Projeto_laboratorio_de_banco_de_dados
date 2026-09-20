@@ -1,0 +1,141 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="MER Oficina Mecanica" id="mer-oficina">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="cliente" value="&lt;b&gt;CLIENTE&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_cliente&lt;/u&gt;&lt;br&gt;nome&lt;br&gt;cpf_cnpj&lt;br&gt;telefone&lt;br&gt;email&lt;br&gt;endereco" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="180" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="veiculo" value="&lt;b&gt;VEICULO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_veiculo&lt;/u&gt;&lt;br&gt;placa&lt;br&gt;modelo&lt;br&gt;marca&lt;br&gt;ano_fabricacao&lt;br&gt;id_cliente (FK)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="os" value="&lt;b&gt;ORDEM_SERVICO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_os&lt;/u&gt;&lt;br&gt;id_veiculo (FK)&lt;br&gt;data_abertura&lt;br&gt;data_previsao_entrega&lt;br&gt;data_entrega_real&lt;br&gt;status_atual" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="620" y="40" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="statushist" value="&lt;b&gt;STATUS_HISTORICO&lt;/b&gt;&lt;br&gt;(entidade temporal)&lt;br&gt;&lt;u&gt;id_status_hist&lt;/u&gt;&lt;br&gt;id_os (FK)&lt;br&gt;status&lt;br&gt;data_hora_mudanca&lt;br&gt;observacao" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="620" y="260" width="220" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fornecedor" value="&lt;b&gt;FORNECEDOR&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_fornecedor&lt;/u&gt;&lt;br&gt;nome&lt;br&gt;cnpj&lt;br&gt;telefone&lt;br&gt;endereco" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="180" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="peca" value="&lt;b&gt;PECA&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_peca&lt;/u&gt;&lt;br&gt;nome&lt;br&gt;descricao&lt;br&gt;id_fornecedor (FK)&lt;br&gt;preco_atual&lt;br&gt;estoque_atual" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="320" y="260" width="200" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ospeca" value="&lt;b&gt;OS_PECA&lt;/b&gt;&lt;br&gt;(entidade fraca)&lt;br&gt;&lt;u&gt;id_os (FK)&lt;/u&gt;&lt;br&gt;&lt;u&gt;id_peca (FK)&lt;/u&gt;&lt;br&gt;quantidade&lt;br&gt;preco_unitario_praticado" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="440" y="480" width="200" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="osmec" value="&lt;b&gt;OS_MECANICO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_os (FK)&lt;/u&gt;&lt;br&gt;&lt;u&gt;id_mecanico (FK)&lt;/u&gt;&lt;br&gt;horas_trabalhadas&lt;br&gt;valor_hora_praticado" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="700" y="480" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mecanico" value="&lt;b&gt;MECANICO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_mecanico&lt;/u&gt;&lt;br&gt;nome&lt;br&gt;especialidade&lt;br&gt;id_supervisor (FK, opcional)" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="40" width="220" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mecint" value="&lt;b&gt;MECANICO_INTERNO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_mecanico (FK)&lt;/u&gt;&lt;br&gt;matricula&lt;br&gt;salario&lt;br&gt;data_contratacao" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="920" y="280" width="200" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mecterc" value="&lt;b&gt;MECANICO_TERCEIRIZADO&lt;/b&gt;&lt;br&gt;&lt;u&gt;id_mecanico (FK)&lt;/u&gt;&lt;br&gt;empresa_parceira&lt;br&gt;cnpj_empresa&lt;br&gt;valor_hora_padrao" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=10;spacingTop=6;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="280" width="220" height="130" as="geometry" />
+        </mxCell>
+
+        <mxCell id="isa" value="d" style="triangle;whiteSpace=wrap;html=1;rotation=180;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="210" width="40" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" value="1" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="cliente" target="veiculo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="possui" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="veiculo" target="os">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="gera" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERoneToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="os" target="statushist">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="registra" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERoneToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="fornecedor" target="peca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="fornece" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="os" target="ospeca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5l" value="contem" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="peca" target="ospeca">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6l" value="e usada em" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e6">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="os" target="osmec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7l" value="conta com" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e7">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERmandOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;" edge="1" parent="1" source="mecanico" target="osmec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8l" value="atende" style="edgeLabel;html=1;align=center;fontSize=11;" vertex="1" connectable="0" parent="e8">
+          <mxGeometry x="0" y="-10" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e9" value="supervisiona" style="edgeStyle=entityRelationEdgeStyle;html=1;startArrow=ERzeroToOne;startFill=0;endArrow=ERzeroToMany;endFill=0;fontSize=11;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" edge="1" parent="1" source="mecanico" target="mecanico">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1300" y="70" />
+              <mxPoint x="1300" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e10" style="html=1;endArrow=none;startArrow=none;fontSize=11;" edge="1" parent="1" source="mecanico" target="isa">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" style="html=1;endArrow=none;startArrow=none;fontSize=11;" edge="1" parent="1" source="isa" target="mecint">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="html=1;endArrow=none;startArrow=none;fontSize=11;" edge="1" parent="1" source="isa" target="mecterc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="isalabel" value="especializacao total e exclusiva (d = disjoint)" style="text;html=1;align=center;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="180" width="280" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="legenda" value="Legenda: tracinho = 1 obrigatorio, o = zero (opcional), pe de galinha = muitos. PK sublinhado, FK indicado entre parenteses." style="text;html=1;align=left;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="650" width="600" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
