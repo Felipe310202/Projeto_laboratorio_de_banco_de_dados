@@ -371,7 +371,8 @@ WITH RECURSIVE seq25 AS (
 SELECT
   CONCAT('FIC', MOD(i, 10), CHAR(65 + MOD(i, 26)), LPAD(i, 2, '0')),
   ELT(1 + MOD(i, 10), 'Onix','Gol','HB20','Corolla','Ka','Civic','Argo','Cronos','Polo','Kwid'),
-  ELT(1 + MOD(i, 8), 'Chevrolet','Volkswagen','Hyundai','Toyota','Ford','Honda','Fiat','Renault'),
+  -- marca na mesma posicao do modelo, para nao gerar combinacao impossivel (ex.: Chevrolet Polo)
+  ELT(1 + MOD(i, 10), 'Chevrolet','Volkswagen','Hyundai','Toyota','Ford','Honda','Fiat','Fiat','Volkswagen','Renault'),
   2012 + MOD(i, 12),
   1 + MOD(i * 3, 45)
 FROM seq25;
