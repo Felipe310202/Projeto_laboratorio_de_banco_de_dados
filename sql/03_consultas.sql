@@ -4,7 +4,13 @@
 -- MySQL 8.0+
 -- 5 basicas, 5 juncoes/agregacao, 5 avancadas
 -- Todas testadas contra o banco carregado
+--
+-- Revisao (Etapa 2): Q5 passou a usar IN de fato, Q6 agora traz so a OS
+-- mais recente de cada veiculo, Q8/Q15 leem a empresa da nova tabela
+-- empresa_parceira, e os agrupamentos usam a chave (id) e nao o nome.
 -- ============================================================
+
+USE oficina_mecanica;
 
 -- ---------- BASICAS ----------
 
@@ -30,41 +36,48 @@ SELECT nome, especialidade
 FROM mecanico
 WHERE id_supervisor IS NULL;
 
--- 5. Quais clientes tem cadastro de telefone ou email em branco? (IN + tratamento de NULL)
-SELECT nome, telefone, email
-FROM cliente
-WHERE telefone IS NULL OR email IS NULL;
+-- 5. Quais OS ainda estao em andamento, e qual a previsao de entrega de cada uma
+--    (mostrando 'sem previsao' quando a data nao foi definida)? (IN + tratamento de NULL)
+SELECT id_os, status_atual, data_abertura,
+       COALESCE(DATE_FORMAT(data_previsao_entrega, '%d/%m/%Y'), 'sem previsao') AS previsao_entrega
+FROM ordem_servico
+WHERE status_atual IN ('aberta', 'em execucao', 'aguardando peca')
+ORDER BY data_abertura;
 
 -- ---------- JUNCOES E AGREGACAO ----------
 
--- 6. Nome do cliente, veiculo e status da OS mais recente de cada veiculo (3 tabelas)
-SELECT c.nome AS cliente, v.placa, v.modelo, os.status_atual, os.data_abertura
+-- 6. Para cada veiculo atendido, quem e o dono e qual o status da sua OS mais recente? (3 tabelas)
+SELECT c.nome AS cliente, v.placa, v.modelo, os.id_os, os.status_atual, os.data_abertura
 FROM cliente c
-JOIN veiculo v ON v.id_cliente = c.id_cliente
+JOIN veiculo v        ON v.id_cliente = c.id_cliente
 JOIN ordem_servico os ON os.id_veiculo = v.id_veiculo
-ORDER BY c.nome, os.data_abertura DESC;
+WHERE os.data_abertura = (SELECT MAX(o2.data_abertura)
+                          FROM ordem_servico o2
+                          WHERE o2.id_veiculo = v.id_veiculo)
+ORDER BY c.nome, v.placa;
 
 -- 7. Todos os veiculos com sua ultima OS, incluindo os que nunca tiveram OS (LEFT JOIN)
 SELECT v.placa, v.modelo, MAX(os.data_abertura) AS ultima_os
 FROM veiculo v
 LEFT JOIN ordem_servico os ON os.id_veiculo = v.id_veiculo
-GROUP BY v.placa, v.modelo
-ORDER BY (ultima_os IS NULL), ultima_os; -- MySQL nao tem NULLS LAST, esse truque joga os NULL pro fim
+GROUP BY v.id_veiculo, v.placa, v.modelo
+ORDER BY (MAX(os.data_abertura) IS NULL), ultima_os; -- MySQL nao tem NULLS LAST, esse truque joga os NULL pro fim
 
 -- 8. Total faturado por mecanico terceirizado (soma de horas x valor/hora praticado)
-SELECT m.nome, mt.empresa_parceira,
+SELECT m.nome, e.nome AS empresa_parceira,
        SUM(osm.horas_trabalhadas * osm.valor_hora_praticado) AS total_faturado
 FROM mecanico m
 JOIN mecanico_terceirizado mt ON mt.id_mecanico = m.id_mecanico
-JOIN os_mecanico osm ON osm.id_mecanico = m.id_mecanico
-GROUP BY m.nome, mt.empresa_parceira
+JOIN empresa_parceira e       ON e.id_empresa = mt.id_empresa
+JOIN os_mecanico osm          ON osm.id_mecanico = m.id_mecanico
+GROUP BY m.id_mecanico, m.nome, e.nome
 ORDER BY total_faturado DESC;
 
 -- 9. Pecas mais usadas por quantidade total, so as que passaram de 3 unidades no total (GROUP BY + HAVING)
 SELECT p.nome, SUM(op.quantidade) AS quantidade_total
 FROM peca p
 JOIN os_peca op ON op.id_peca = p.id_peca
-GROUP BY p.nome
+GROUP BY p.id_peca, p.nome
 HAVING SUM(op.quantidade) > 3
 ORDER BY quantidade_total DESC;
 
@@ -112,13 +125,14 @@ GROUP BY DATE_FORMAT(data_abertura, '%Y-%m-01')
 ORDER BY mes;
 
 -- 15. Mecanico terceirizado com maior faturamento acumulado, mostrando quem o supervisiona (autorrelacionamento)
-SELECT m.nome AS mecanico, mt.empresa_parceira,
+SELECT m.nome AS mecanico, e.nome AS empresa_parceira,
        sup.nome AS supervisor,
        SUM(osm.horas_trabalhadas * osm.valor_hora_praticado) AS faturamento
 FROM mecanico m
 JOIN mecanico_terceirizado mt ON mt.id_mecanico = m.id_mecanico
-JOIN os_mecanico osm ON osm.id_mecanico = m.id_mecanico
-LEFT JOIN mecanico sup ON sup.id_mecanico = m.id_supervisor
-GROUP BY m.nome, mt.empresa_parceira, sup.nome
+JOIN empresa_parceira e       ON e.id_empresa = mt.id_empresa
+JOIN os_mecanico osm          ON osm.id_mecanico = m.id_mecanico
+LEFT JOIN mecanico sup        ON sup.id_mecanico = m.id_supervisor
+GROUP BY m.id_mecanico, m.nome, e.nome, sup.nome
 ORDER BY faturamento DESC
 LIMIT 1;
