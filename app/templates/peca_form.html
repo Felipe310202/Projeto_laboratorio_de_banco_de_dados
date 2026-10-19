@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>{{ 'Editar' if id else 'Nova' }} peca</h2>
+<form method="post">
+ <label>Nome *</label><input name="nome" value="{{ item.nome or '' }}" required>
+ <label>Descricao</label><input name="descricao" value="{{ item.descricao or '' }}">
+ <label>Fornecedor *</label><select name="id_fornecedor">
+ {% for f in fornecedores %}<option value="{{ f.id_fornecedor }}" {% if item.id_fornecedor|string == f.id_fornecedor|string %}selected{% endif %}>{{ f.nome }}</option>{% endfor %}
+ </select>
+ <label>Preco atual (R$) *</label><input name="preco_atual" type="number" step="0.01" value="{{ item.preco_atual or '' }}" required>
+ <label>Estoque *</label><input name="estoque_atual" type="number" value="{{ item.estoque_atual if item.estoque_atual is not none else '' }}" required>
+ <br><button>Salvar</button> <a href="{{ url_for('pecas') }}">Cancelar</a>
+</form>{% endblock %}

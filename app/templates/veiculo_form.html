@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>{{ 'Editar' if id else 'Novo' }} veiculo</h2>
+<form method="post">
+ <label>Placa *</label><input name="placa" value="{{ item.placa or '' }}" required>
+ <label>Marca *</label><input name="marca" value="{{ item.marca or '' }}" required>
+ <label>Modelo *</label><input name="modelo" value="{{ item.modelo or '' }}" required>
+ <label>Ano de fabricacao *</label><input name="ano_fabricacao" type="number" value="{{ item.ano_fabricacao or '' }}" required>
+ <label>Dono *</label><select name="id_cliente">
+ {% for c in clientes %}<option value="{{ c.id_cliente }}" {% if item.id_cliente|string == c.id_cliente|string %}selected{% endif %}>{{ c.nome }}</option>{% endfor %}
+ </select>
+ <br><button>Salvar</button> <a href="{{ url_for('veiculos') }}">Cancelar</a>
+</form>{% endblock %}

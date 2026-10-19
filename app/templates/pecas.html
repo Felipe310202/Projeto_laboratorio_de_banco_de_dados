@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Pecas</h2>
+<form method="get"><input name="busca" value="{{ busca }}" placeholder="Buscar por nome"> <button>Buscar</button></form>
+{% if session.perfil == 'gerente' %}<p><a class="btn" href="{{ url_for('peca_form') }}">+ Nova peca</a></p>{% endif %}
+<table><tr><th>Nome</th><th>Preco (R$)</th><th>Estoque</th>{% if session.perfil == 'gerente' %}<th></th>{% endif %}</tr>
+{% for p in linhas %}<tr><td>{{ p.nome }}</td><td>{{ p.preco_atual }}</td><td>{{ p.estoque_atual }}</td>
+{% if session.perfil == 'gerente' %}<td><a href="{{ url_for('peca_form', id=p.id_peca) }}">Editar</a>
+<form class="inline" method="post" action="{{ url_for('peca_excluir', id=p.id_peca) }}" onsubmit="return confirm('Excluir esta peca?')"><button>Excluir</button></form></td>{% endif %}</tr>
+{% else %}<tr><td colspan="4">Nenhuma peca encontrada.</td></tr>{% endfor %}
+</table>{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Historico do veiculo</h2>
+<form method="get">
+ <label>Placa</label><input name="placa" value="{{ placa }}" placeholder="ex.: ABC1A23" required>
+ <label>De</label><input type="date" name="data_ini" value="{{ ini }}">
+ <label>Ate</label><input type="date" name="data_fim" value="{{ fim }}">
+ <br><button>Consultar</button>
+</form><br>
+{% if placa %}
+<table><tr><th>OS</th><th>Abertura</th><th>Status</th><th>Problema</th><th>Qtd. pecas</th><th>Pecas (R$)</th><th>Mao de obra (R$)</th></tr>
+{% for l in linhas %}<tr><td>{{ l.id_os }}</td><td>{{ l.data_abertura }}</td><td>{{ l.status_atual }}</td><td>{{ l.problema_relatado }}</td>
+<td>{{ l.qtd_pecas }}</td><td>{{ '%.2f'|format(l.total_pecas) }}</td><td>{{ '%.2f'|format(l.total_mao_obra) }}</td></tr>
+{% else %}<tr><td colspan="7">Nenhuma OS para essa placa no periodo.</td></tr>{% endfor %}
+</table>{% endif %}
+{% endblock %}

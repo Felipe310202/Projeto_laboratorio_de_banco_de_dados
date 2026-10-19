@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Lancar peca na OS (operacao transacional)</h2>
+<p style="font-size:13px">Grava em <code>os_peca</code> e baixa o estoque em <code>peca</code> na mesma transacao.
+Se faltar estoque, tudo e desfeito (ROLLBACK).</p>
+<form method="post">
+ <label>OS</label><select name="id_os">
+ {% for o in lista_os %}<option value="{{ o.id_os }}">OS {{ o.id_os }} - {{ o.placa }} {{ o.modelo }} - {{ o.status_atual }}</option>{% endfor %}</select>
+ <label>Peca</label><select name="id_peca">
+ {% for p in lista_pecas %}<option value="{{ p.id_peca }}">{{ p.nome }} (estoque: {{ p.estoque_atual }})</option>{% endfor %}</select>
+ <label>Quantidade</label><input name="quantidade" type="number" min="1" value="1" required>
+ <br><button>Lancar</button>
+</form>
+{% if passos %}<h3>Passos executados no banco</h3>
+<div class="passos">{% for p in passos %}{{ p }}<br>{% endfor %}</div>{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Mecanicos</h2>
+<p><a class="btn" href="{{ url_for('mecanico_form') }}">+ Novo mecanico</a></p>
+<table><tr><th>Nome</th><th>Especialidade</th><th>Tipo</th><th>Supervisor</th><th>Salario</th><th>Valor/hora</th><th>Empresa</th><th></th></tr>
+{% for m in linhas %}<tr><td>{{ m.nome }}</td><td>{{ m.especialidade or '' }}</td><td>{{ m.tipo }}</td><td>{{ m.supervisor or '' }}</td>
+<td>{{ m.salario or '' }}</td><td>{{ m.valor_hora_padrao or '' }}</td><td>{{ m.empresa or '' }}</td>
+<td><a href="{{ url_for('mecanico_form', id=m.id_mecanico) }}">Editar</a>
+<form class="inline" method="post" action="{{ url_for('mecanico_excluir', id=m.id_mecanico) }}" onsubmit="return confirm('Excluir este mecanico?')"><button>Excluir</button></form></td></tr>{% endfor %}
+</table>{% endblock %}

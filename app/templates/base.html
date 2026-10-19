@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-br"><head><meta charset="utf-8"><title>Oficina Mecanica</title>
+<style>
+ body{font-family:Arial,sans-serif;margin:0;background:#f4f5f7;color:#222}
+ nav{background:#1f3a5f;padding:10px 20px}
+ nav a{color:#fff;margin-right:16px;text-decoration:none;font-size:14px}
+ nav span{color:#cfd8e3;float:right;font-size:14px}
+ main{padding:20px;max-width:1100px}
+ table{border-collapse:collapse;background:#fff;width:100%;font-size:14px}
+ th,td{border:1px solid #ccc;padding:6px 8px;text-align:left}
+ th{background:#e3e8ef}
+ .msg{padding:10px;margin-bottom:12px;border-radius:4px}
+ .ok{background:#d9f2dd;border:1px solid #6cbf77}
+ .erro{background:#f8d7d7;border:1px solid #d46a6a}
+ form.inline{display:inline}
+ label{display:block;margin-top:10px;font-weight:bold;font-size:14px}
+ input,select{padding:5px;width:320px}
+ button,.btn{padding:6px 12px;margin-top:10px;cursor:pointer}
+ .passos{background:#fff;border:1px solid #ccc;padding:10px;font-family:monospace}
+</style></head><body>
+{% if session.perfil %}
+<nav>
+ <a href="{{ url_for('inicio') }}">Inicio</a>
+ {% if session.perfil in ['atendente','gerente'] %}
+  <a href="{{ url_for('clientes') }}">Clientes</a>
+  <a href="{{ url_for('veiculos') }}">Veiculos</a>
+ {% endif %}
+ <a href="{{ url_for('pecas') }}">Pecas</a>
+ {% if session.perfil == 'gerente' %}<a href="{{ url_for('mecanicos') }}">Mecanicos</a>{% endif %}
+ {% if session.perfil in ['mecanico','gerente'] %}<a href="{{ url_for('lancar_peca') }}">Lancar peca na OS</a>{% endif %}
+ <a href="{{ url_for('status_os') }}">Status da OS</a>
+ {% if session.perfil in ['atendente','gerente'] %}<a href="{{ url_for('relatorio') }}">Relatorio</a>{% endif %}
+ {% if session.perfil == 'gerente' %}
+  <a href="{{ url_for('consulta_faturamento') }}">Faturamento</a>
+  <a href="{{ url_for('consulta_historico') }}">Historico do veiculo</a>
+  <a href="{{ url_for('auditoria') }}">Auditoria</a>
+ {% endif %}
+ <span>{{ session.login }} ({{ session.perfil }}) | <a href="{{ url_for('logout') }}">Sair</a></span>
+</nav>
+{% endif %}
+<main>
+{% with msgs = get_flashed_messages(with_categories=true) %}
+ {% for cat, m in msgs %}<div class="msg {{ cat }}">{{ m }}</div>{% endfor %}
+{% endwith %}
+{% block corpo %}{% endblock %}
+</main></body></html>

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Mudar status da OS</h2>
+<p style="font-size:13px">A mudanca e registrada automaticamente no historico da OS e na auditoria (gatilho trg_os_audit_status).</p>
+<form method="post">
+ <label>OS</label><select name="id_os">
+ {% for o in lista_os %}<option value="{{ o.id_os }}">OS {{ o.id_os }} - {{ o.placa }} - atual: {{ o.status_atual }}</option>{% endfor %}</select>
+ <label>Novo status</label><select name="status">{% for s in status %}<option>{{ s }}</option>{% endfor %}</select>
+ <label>Observacao (justificativa)</label><input name="obs">
+ <br><button>Salvar</button>
+</form>{% endblock %}

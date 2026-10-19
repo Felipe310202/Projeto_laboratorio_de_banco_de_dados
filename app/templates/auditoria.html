@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Auditoria (somente leitura)</h2>
+<table><tr><th>#</th><th>Quando</th><th>Quem</th><th>Tabela</th><th>Registro</th><th>Campo</th><th>Antes</th><th>Depois</th></tr>
+{% for a in linhas %}<tr><td>{{ a.id_auditoria }}</td><td>{{ a.data_hora }}</td><td>{{ a.usuario }}</td><td>{{ a.tabela }}</td><td>{{ a.id_registro }}</td>
+<td>{{ a.campo }}</td><td>{{ a.valor_antigo }}</td><td>{{ a.valor_novo }}</td></tr>
+{% else %}<tr><td colspan="8">Nenhuma alteracao registrada.</td></tr>{% endfor %}
+</table>{% endblock %}

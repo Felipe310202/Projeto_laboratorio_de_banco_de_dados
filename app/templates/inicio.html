@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Bem-vindo(a), {{ session.login }}</h2>
+<p>Perfil: <b>{{ session.perfil }}</b>. Use o menu acima. Cada perfil ve apenas as telas
+e os dados que tem permissao para acessar, e o proprio banco aplica essas permissoes.</p>
+{% endblock %}

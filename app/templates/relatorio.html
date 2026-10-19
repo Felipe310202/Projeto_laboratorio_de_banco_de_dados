@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Resumo das ordens de servico</h2>
+<p style="font-size:13px">Fonte: visao <code>vw_resumo_os</code> (total = pecas + mao de obra, RN20).</p>
+<form method="get"><label>Status</label><select name="status"><option value="">(todos)</option>
+{% for s in ['aberta','em execucao','aguardando peca','concluida','entregue'] %}<option {% if s == status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+</select> <button>Filtrar</button></form><br>
+<table><tr><th>OS</th><th>Cliente</th><th>Placa</th><th>Status</th><th>Abertura</th><th>Garantia?</th><th>Pecas</th><th>Mao de obra</th><th>Total</th></tr>
+{% for l in linhas %}<tr><td>{{ l.id_os }}</td><td>{{ l.cliente }}</td><td>{{ l.placa }}</td><td>{{ l.status_atual }}</td><td>{{ l.data_abertura }}</td>
+<td>{{ l.retorno_garantia }}</td><td>{{ l.total_pecas }}</td><td>{{ l.total_mao_obra }}</td><td><b>{{ l.total_geral }}</b></td></tr>{% endfor %}
+<tr><th colspan="8">Total geral ({{ linhas|length }} OS)</th><th>{{ '%.2f'|format(total) }}</th></tr>
+</table>{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Clientes</h2>
+<form method="get"><input name="busca" value="{{ busca }}" placeholder="Buscar por nome"> <button>Buscar</button></form>
+<p><a class="btn" href="{{ url_for('cliente_form') }}">+ Novo cliente</a></p>
+<table><tr><th>Nome</th><th>CPF/CNPJ</th><th>Telefone</th><th>E-mail</th><th></th></tr>
+{% for c in linhas %}<tr><td>{{ c.nome }}</td><td>{{ c.cpf_cnpj }}</td><td>{{ c.telefone or '' }}</td><td>{{ c.email or '' }}</td>
+<td><a href="{{ url_for('cliente_form', id=c.id_cliente) }}">Editar</a>
+<form class="inline" method="post" action="{{ url_for('cliente_excluir', id=c.id_cliente) }}" onsubmit="return confirm('Excluir este cliente?')"><button>Excluir</button></form></td></tr>
+{% else %}<tr><td colspan="5">Nenhum cliente encontrado.</td></tr>{% endfor %}
+</table>{% endblock %}

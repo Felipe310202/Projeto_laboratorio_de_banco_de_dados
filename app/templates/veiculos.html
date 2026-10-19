@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Veiculos</h2>
+<form method="get"><input name="busca" value="{{ busca }}" placeholder="Buscar por placa"> <button>Buscar</button></form>
+<p><a class="btn" href="{{ url_for('veiculo_form') }}">+ Novo veiculo</a></p>
+<table><tr><th>Placa</th><th>Marca</th><th>Modelo</th><th>Ano</th><th>Dono</th><th></th></tr>
+{% for v in linhas %}<tr><td>{{ v.placa }}</td><td>{{ v.marca }}</td><td>{{ v.modelo }}</td><td>{{ v.ano_fabricacao }}</td><td>{{ v.dono }}</td>
+<td><a href="{{ url_for('veiculo_form', id=v.id_veiculo) }}">Editar</a>
+<form class="inline" method="post" action="{{ url_for('veiculo_excluir', id=v.id_veiculo) }}" onsubmit="return confirm('Excluir este veiculo?')"><button>Excluir</button></form></td></tr>
+{% else %}<tr><td colspan="6">Nenhum veiculo encontrado.</td></tr>{% endfor %}
+</table>{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}{% block corpo %}
+<h2>Faturamento por mecanico</h2>
+<form method="get">
+ <label>De</label><input type="date" name="data_ini" value="{{ ini }}">
+ <label>Ate</label><input type="date" name="data_fim" value="{{ fim }}">
+ <label>Tipo</label><select name="tipo">
+ {% for t in ['todos','interno','terceirizado'] %}<option {% if t == tipo %}selected{% endif %}>{{ t }}</option>{% endfor %}</select>
+ <br><button>Consultar</button>
+</form><br>
+<table><tr><th>Mecanico</th><th>Tipo</th><th>OS atendidas</th><th>Horas</th><th>Valor pago por OS (R$)</th></tr>
+{% for l in linhas %}<tr><td>{{ l.nome }}</td><td>{{ l.tipo }}</td><td>{{ l.qtd_os }}</td><td>{{ l.horas }}</td><td>{{ '%.2f'|format(l.valor) }}</td></tr>
+{% else %}<tr><td colspan="5">Nenhum resultado no periodo.</td></tr>{% endfor %}
+</table>
+<p style="font-size:13px">Internos recebem salario fixo (RN18), por isso o valor por OS deles e zero.</p>
+{% endblock %}
