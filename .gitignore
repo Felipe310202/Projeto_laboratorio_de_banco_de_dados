@@ -1,0 +1,3 @@
+.DS_Store
+.env
+sql/06b_usuarios_banco.sql
